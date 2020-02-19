@@ -8,6 +8,7 @@ import torch.nn.functional as F
 
 class SimpleNN(nn.Module):
     def __init__(self):
+        super(SimpleNN, self).__init__()
         self.fc1 = nn.Linear(10,10)
         self.fc2 = nn.Linear(20,10)
 
