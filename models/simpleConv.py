@@ -1,5 +1,11 @@
+"""
+
+Simple Convolutional Neural Network meant to work with 32x32x3 images
+
+"""
 import torch.nn as nn
 import torch.nn.functional as F
+import torch
 
 class SimpleConv(nn.Module):
 
@@ -7,7 +13,7 @@ class SimpleConv(nn.Module):
         super(SimpleConv, self).__init__()
         self.conv1 = nn.Conv2d(3, 6, 2)
         self.conv2 = nn.Conv2d(6, 16, 2)
-        self.fc1 = nn.Linear(16 * 6 * 6, 120)
+        self.fc1 = nn.Linear(16 * 7 * 7, 120)
         self.fc2 = nn.Linear(120, 10)
     
     def forward(self, x):
@@ -24,3 +30,12 @@ class SimpleConv(nn.Module):
         for s in size:
             num_features *= s
         return num_features
+
+if __name__ == "__main__":
+    net = SimpleConv()
+
+    # Create a random 3-channel input of dimension 32x32 and mini-batch size of 1.
+    input_mat = torch.randn(1,3,32,32)
+    
+    # Forward pass
+    output = net(input_mat)
