@@ -13,7 +13,10 @@ class SimpleConv(nn.Module):
         super(SimpleConv, self).__init__()
         self.conv1 = nn.Conv2d(3, 6, 2)
         self.conv2 = nn.Conv2d(6, 16, 2)
-        self.fc1 = nn.Linear(16 * 7 * 7, 120)
+        
+        self.fc1 = nn.Linear(16 * 7 * 7, 120) 
+        # How do I figure out that it has 16 * 7 * 7? A simple way is to print the x.size() right above x.view() or print the num_flat_features()
+        # Other way is to calculate it
         self.fc2 = nn.Linear(120, 10)
     
     def forward(self, x):
