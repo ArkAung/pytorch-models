@@ -1,6 +1,6 @@
 """
 
-Simple 2 layer Fully Connected Neural Network
+    Simple 2 layer Fully Connected Neural Network
 
 """
 

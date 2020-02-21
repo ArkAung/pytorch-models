@@ -1,3 +1,8 @@
+"""
+  Convolutional Autoencoders: Simple 2 conv layer and 2 transposed conv layer
+  A good way to figure out the strides and kernel sizes to ensure that you are upsampling right 
+  is to debug it with random image input and check the output sizes.
+"""
 import torch.nn as nn
 
 class ConvAutoencoder(nn.Module):

@@ -1,6 +1,6 @@
 """
 
-Simple Convolutional Neural Network meant to work with 32x32x3 images
+    Simple Convolutional Neural Network meant to work with 32x32x3 images
 
 """
 import torch.nn as nn
