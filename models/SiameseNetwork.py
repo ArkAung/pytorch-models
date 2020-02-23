@@ -36,7 +36,7 @@ class SiameseNetwork(nn.Module):
     # Forward pass for one input
     def forward_brach(self, x):
         x = self.conv_block(x)
-        x = x.view(-1)
+        x = x.view(-1, 9216)
         x = self.linear(x)
         return x
 

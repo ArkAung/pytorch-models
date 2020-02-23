@@ -1,18 +1,13 @@
 from torchvision.datasets import ImageFolder
-from torch.utils.data.dataloader import DataLoader
-from torch.utils.data.dataset import Dataset
-from models.SiameseNetwork import SiameseNetwork
-import torch.optim as optim
-import torch.nn as nn
 import os
 import numpy as np
-
+import torch
 
 class OmniglotData(ImageFolder):
     """Omnitglot Dataset to load pairs of similar images and different images"""
 
-    def __init__(self, root, transform=None, is_valid_file=None):
-        super(OmniglotData, self).__init__(root, transform=transform, target_transform=None, is_valid_file=is_valid_file)
+    def __init__(self, root, transform=None, target_transform=None, is_valid_file=None):
+        super(OmniglotData, self).__init__(root, transform=transform, target_transform=target_transform, is_valid_file=is_valid_file)
         self.samples_per_class = self._get_samples_per_class(self.classes)
 
     def _get_samples_per_class(self, class_names):
@@ -32,14 +27,13 @@ class OmniglotData(ImageFolder):
         path1, target = self.samples[index]
         if index % 2 == 0:
             samples_of_target = self.samples_per_class[target]
-            
-            is_similar = True
+            is_similar = 1.0
         else:
             other_class = target
             while (other_class == target):
                 other_class = self.class_to_idx[np.random.choice(self.classes)]
             samples_of_target = self.samples_per_class[other_class]
-            is_similar = False
+            is_similar = 0.0
 
         another_alphabet_root = np.random.choice(samples_of_target) 
         path2 = os.path.join(another_alphabet_root, np.random.choice(os.listdir(another_alphabet_root)))
@@ -49,15 +43,10 @@ class OmniglotData(ImageFolder):
         if self.transform is not None:
             sample1 = self.transform(sample1)
             sample2 = self.transform(sample2)
-        
-        return sample1, sample2, is_similar
+        return sample1, sample2, torch.from_numpy(np.array([is_similar], dtype=np.float32))
 
 
-train_dataset = OmniglotData(root='./data/Omniglot/images_background')
-even = train_dataset[0]
-odd = train_dataset[1]
-train_dataloader = DataLoader(dataset=train_dataset, batch_size=100)
-
-classes = train_dataset.classes
-
-net = SiameseNetwork()
+if __name__=="__main__":
+    train_dataset = OmniglotData(root='./data/Omniglot/images_background')
+    even = train_dataset[0]
+    odd = train_dataset[1]
